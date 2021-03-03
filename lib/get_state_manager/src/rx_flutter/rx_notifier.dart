@@ -7,8 +7,8 @@ import '../../get_state_manager.dart';
 import '../simple/list_notifier.dart';
 
 mixin StateMixin<T> on ListNotifier {
-  T _value;
-  RxStatus _status;
+  T? _value;
+  RxStatus? _status;
 
   bool _isNullOrEmpty(dynamic val) {
     if (val == null) return true;
@@ -32,23 +32,23 @@ mixin StateMixin<T> on ListNotifier {
     return _status ??= _status = RxStatus.loading();
   }
 
-  T get state => value;
+  T? get state => value;
 
   @protected
-  T get value {
+  T? get value {
     notifyChildrens();
     return _value;
   }
 
   @protected
-  set value(T newValue) {
+  set value(T? newValue) {
     if (_value == newValue) return;
     _value = newValue;
     refresh();
   }
 
   @protected
-  void change(T newState, {RxStatus status}) {
+  void change(T newState, {RxStatus? status}) {
     var _canUpdate = false;
     if (status != null) {
       _status = status;
@@ -66,33 +66,33 @@ mixin StateMixin<T> on ListNotifier {
 
 class Value<T> extends ListNotifier
     with StateMixin<T>
-    implements ValueListenable<T> {
+    implements ValueListenable<T?> {
   Value(T val) {
     _value = val;
     _fillEmptyStatus();
   }
 
   @override
-  T get value {
+  T? get value {
     notifyChildrens();
     return _value;
   }
 
   @override
-  set value(T newValue) {
+  set value(T? newValue) {
     if (_value == newValue) return;
     _value = newValue;
     refresh();
   }
 
-  T call([T v]) {
+  T? call([T? v]) {
     if (v != null) {
       value = v;
     }
     return value;
   }
 
-  void update(void fn(T value)) {
+  void update(void fn(T? value)) {
     fn(value);
     refresh();
   }
@@ -124,10 +124,10 @@ abstract class GetNotifier<T> extends Value<T> with GetLifeCycleBase {
 
 extension StateExt<T> on StateMixin<T> {
   Widget obx(
-    NotifierBuilder<T> widget, {
-    Widget Function(String error) onError,
-    Widget onLoading,
-    Widget onEmpty,
+    NotifierBuilder<T?> widget, {
+    Widget Function(String? error)? onError,
+    Widget? onLoading,
+    Widget? onEmpty,
   }) {
     assert(widget != null);
     return SimpleBuilder(builder: (_) {
@@ -153,7 +153,7 @@ class RxStatus {
   final bool isSuccess;
   final bool isEmpty;
   final bool isLoadingMore;
-  final String errorMessage;
+  final String? errorMessage;
 
   RxStatus._({
     this.isEmpty = false,
@@ -176,7 +176,7 @@ class RxStatus {
     return RxStatus._(isSuccess: true);
   }
 
-  factory RxStatus.error([String message]) {
+  factory RxStatus.error([String? message]) {
     return RxStatus._(isError: true, errorMessage: message);
   }
 

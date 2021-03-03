@@ -14,13 +14,13 @@ class Request<T> {
   /// The [Uri] from request
   final Uri url;
 
-  final Decoder<T> decoder;
+  final Decoder<T>? decoder;
 
   /// The Http Method from this [Request]
   /// ex: `GET`,`POST`,`PUT`,`DELETE`
   final String method;
 
-  final int contentLength;
+  final int? contentLength;
 
   /// The BodyBytesStream of body from this [Request]
   final BodyBytesStream bodyBytes;
@@ -33,32 +33,32 @@ class Request<T> {
 
   final bool persistentConnection;
 
-  final FormData files;
+  final FormData? files;
 
   const Request._({
-    @required this.method,
-    @required this.bodyBytes,
-    @required this.url,
-    @required this.headers,
-    @required this.contentLength,
-    @required this.followRedirects,
-    @required this.maxRedirects,
-    @required this.files,
-    @required this.persistentConnection,
-    @required this.decoder,
+    required this.method,
+    required this.bodyBytes,
+    required this.url,
+    required this.headers,
+    required this.contentLength,
+    required this.followRedirects,
+    required this.maxRedirects,
+    required this.files,
+    required this.persistentConnection,
+    required this.decoder,
   });
 
   factory Request({
-    @required Uri url,
-    @required String method,
-    @required Map<String, String> headers,
-    BodyBytesStream bodyBytes,
+    required Uri url,
+    required String method,
+    required Map<String, String> headers,
+    BodyBytesStream? bodyBytes,
     bool followRedirects = true,
     int maxRedirects = 4,
-    int contentLength,
-    FormData files,
+    int? contentLength,
+    FormData? files,
     bool persistentConnection = true,
-    Decoder<T> decoder,
+    Decoder<T>? decoder,
   }) {
     assert(url != null);
     assert(method != null);
@@ -82,10 +82,10 @@ class Request<T> {
   }
 }
 
-class BodyBytesStream extends StreamView<List<int>> {
-  BodyBytesStream(Stream<List<int>> stream) : super(stream);
+class BodyBytesStream extends StreamView<List<int>?> {
+  BodyBytesStream(Stream<List<int>?> stream) : super(stream);
 
-  factory BodyBytesStream.fromBytes(List<int> bytes) =>
+  factory BodyBytesStream.fromBytes(List<int>? bytes) =>
       BodyBytesStream(Stream.fromIterable([bytes]));
 
   Future<Uint8List> toBytes() {
