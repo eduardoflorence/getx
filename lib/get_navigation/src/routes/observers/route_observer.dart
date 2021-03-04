@@ -83,11 +83,10 @@ class _RouteData {
 }
 
 class GetObserver extends NavigatorObserver {
-  final Function(Routing?)? routing;
+  final void Function(Routing)? routing;
+  final Routing? _routeSend;
 
   GetObserver([this.routing, this._routeSend]);
-
-  final Routing? _routeSend;
 
   @override
   void didPush(Route route, Route? previousRoute) {
@@ -122,7 +121,7 @@ class GetObserver extends NavigatorObserver {
     });
 
     if (routing != null) {
-      routing!(_routeSend);
+      routing!(_routeSend!);
     }
   }
 
@@ -163,7 +162,7 @@ class GetObserver extends NavigatorObserver {
 
     print('currentRoute.isDialog ${currentRoute.isDialog}');
 
-    routing?.call(_routeSend);
+    routing?.call(_routeSend!);
   }
 
   @override
@@ -194,7 +193,7 @@ class GetObserver extends NavigatorObserver {
       value.isDialog = currentRoute.isDialog ? false : value.isDialog;
     });
 
-    routing?.call(_routeSend);
+    routing?.call(_routeSend!);
   }
 
   @override
@@ -216,6 +215,6 @@ class GetObserver extends NavigatorObserver {
       value.isDialog = currentRoute.isDialog ? false : value.isDialog;
     });
 
-    routing?.call(_routeSend);
+    routing?.call(_routeSend!);
   }
 }
