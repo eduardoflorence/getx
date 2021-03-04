@@ -35,7 +35,7 @@ abstract class GetView<T> extends StatelessWidget {
 
   final String? tag = null;
 
-  T? get controller => GetInstance().find<T>(tag: tag);
+  T get controller => GetInstance().find<T>(tag: tag);
 
   @override
   Widget build(BuildContext context);
@@ -47,13 +47,13 @@ abstract class GetView<T> extends StatelessWidget {
 /// GetWidget is perfect to multiples instance of a same controller. Each
 /// GetWidget will have your own controller, and will be call events as [onInit]
 /// and [onClose] when the controller get in/get out on memory.
-abstract class GetWidget<S extends GetLifeCycleBase?> extends GetWidgetCache {
+abstract class GetWidget<S extends GetLifeCycleBase> extends GetWidgetCache {
   const GetWidget({Key? key}) : super(key: key);
 
   @protected
   final String? tag = null;
 
-  S? get controller => GetWidget._cache[this] as S?;
+  S get controller => GetWidget._cache[this] as S;
 
   // static final _cache = <GetWidget, GetLifeCycleBase>{};
 
@@ -66,7 +66,7 @@ abstract class GetWidget<S extends GetLifeCycleBase?> extends GetWidgetCache {
   WidgetCache createWidgetCache() => _GetCache<S>();
 }
 
-class _GetCache<S extends GetLifeCycleBase?> extends WidgetCache<GetWidget<S>> {
+class _GetCache<S extends GetLifeCycleBase> extends WidgetCache<GetWidget<S>> {
   S? _controller;
   bool _isCreator = false;
   InstanceInfo? info;
@@ -88,7 +88,7 @@ class _GetCache<S extends GetLifeCycleBase?> extends WidgetCache<GetWidget<S>> {
   void onClose() {
     if (_isCreator) {
       Get.asap(() {
-        widget!.controller!.onDelete();
+        widget!.controller.onDelete();
         Get.log('"${widget!.controller.runtimeType}" onClose() called');
         Get.log('"${widget!.controller.runtimeType}" deleted from memory');
         GetWidget._cache[widget!] = null;
