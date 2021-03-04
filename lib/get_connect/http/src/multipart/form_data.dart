@@ -57,9 +57,7 @@ class FormData {
   String _fileHeader(MapEntry<String, MultipartFile> file) {
     var header =
         'content-disposition: form-data; name="${browserEncode(file.key)}"';
-    if (file.value.filename != null) {
-      header = '$header; filename="${browserEncode(file.value.filename)}"';
-    }
+    header = '$header; filename="${browserEncode(file.value.filename)}"';
     header = '$header\r\n'
         'content-type: ${file.value.contentType}';
     return '$header\r\n\r\n';
@@ -109,7 +107,7 @@ class FormData {
     for (final file in files) {
       yield separator;
       yield utf8.encode(_fileHeader(file));
-      yield* file.value.stream!;
+      yield* (file.value.stream! as Stream<List<int>>);
       yield line;
     }
     yield close;

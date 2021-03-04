@@ -47,8 +47,12 @@ class MiniStream<T> {
 
   bool get isClosed => listenable == null;
 
-  MiniSubscription<T?> listen(void Function(T? event) onData,
-      {Function? onError, void Function()? onDone, bool cancelOnError = false}) {
+  MiniSubscription<T?> listen(
+    void Function(T? event) onData, {
+    Function? onError,
+    void Function()? onDone,
+    bool cancelOnError = false,
+  }) {
     final subs = MiniSubscription<T?>(
       onData,
       onError,
@@ -74,18 +78,18 @@ class FastList<T> {
   Node<MiniSubscription<T>>? _head;
 
   void _notifyData(T data) {
-    var currentNode = _head!;
+    Node<MiniSubscription<T>>? currentNode = _head!;
     do {
-      currentNode.data!.data(data);
-      currentNode = currentNode.next!;
+      currentNode?.data?.data(data);
+      currentNode = currentNode?.next;
     } while (currentNode != null);
   }
 
   void _notifyDone() {
-    var currentNode = _head!;
+    Node<MiniSubscription<T>>? currentNode = _head!;
     do {
-      currentNode.data!.onDone?.call();
-      currentNode = currentNode.next!;
+      currentNode?.data?.onDone?.call();
+      currentNode = currentNode?.next;
     } while (currentNode != null);
   }
 

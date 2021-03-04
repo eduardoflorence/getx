@@ -145,7 +145,7 @@ mixin NotifyManager<T> {
     void Function(T) onData, {
     Function? onError,
     void Function()? onDone,
-    bool cancelOnError = false,
+    bool? cancelOnError = false,
   }) =>
       subject.listen(onData,
           onError: onError, onDone: onDone, cancelOnError: cancelOnError);
@@ -154,7 +154,7 @@ mixin NotifyManager<T> {
   void close() {
     _subscriptions.forEach((getStream, _subscriptions) {
       for (final subscription in _subscriptions) {
-        subscription?.cancel();
+        subscription.cancel();
       }
     });
 

@@ -61,12 +61,11 @@ class HomeView extends GetView<HomeController> {
                   SizedBox(
                     height: 10,
                   ),
-                  OutlineButton(
-                    borderSide: BorderSide(
-                      color: Colors.deepPurple,
-                      width: 3,
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      shape: StadiumBorder(),
+                      side: BorderSide(width: 3, color: Colors.deepPurple),
                     ),
-                    shape: StadiumBorder(),
                     onPressed: () {
                       Get.toNamed('/home/country');
                     },

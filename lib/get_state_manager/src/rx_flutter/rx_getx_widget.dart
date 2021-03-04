@@ -10,7 +10,7 @@ import '../../get_state_manager.dart';
 typedef GetXControllerBuilder<T extends DisposableInterface> = Widget Function(
     T controller);
 
-class GetX<T extends DisposableInterface?> extends StatefulWidget {
+class GetX<T extends DisposableInterface> extends StatefulWidget {
   final GetXControllerBuilder<T>? builder;
   final bool global;
 
@@ -42,7 +42,7 @@ class GetX<T extends DisposableInterface?> extends StatefulWidget {
   GetXState<T> createState() => GetXState<T>();
 }
 
-class GetXState<T extends DisposableInterface?> extends State<GetX<T?>> {
+class GetXState<T extends DisposableInterface> extends State<GetX<T>> {
   GetXState() {
     _observer = RxNotifier();
   }
@@ -92,8 +92,10 @@ class GetXState<T extends DisposableInterface?> extends State<GetX<T?>> {
 
   @override
   void didUpdateWidget(GetX oldWidget) {
-    super.didUpdateWidget(oldWidget as GetX<T?>);
-    if (widget.didUpdateWidget != null) widget.didUpdateWidget!(oldWidget, this);
+    super.didUpdateWidget(oldWidget as GetX<T>);
+    if (widget.didUpdateWidget != null) {
+      widget.didUpdateWidget!(oldWidget, this);
+    }
   }
 
   @override
@@ -114,7 +116,7 @@ class GetXState<T extends DisposableInterface?> extends State<GetX<T?>> {
   Widget get notifyChildren {
     final observer = RxInterface.proxy;
     RxInterface.proxy = _observer;
-    final result = widget.builder!(controller);
+    final result = widget.builder!(controller!);
     if (!_observer!.canUpdate) {
       throw """
       [Get] the improper use of a GetX has been detected. 

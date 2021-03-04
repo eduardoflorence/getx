@@ -2,12 +2,12 @@ part of rx_types;
 
 /// Create a list similar to `List<T>`
 class RxList<E> extends ListMixin<E>
-    with NotifyManager<List<E>>, RxObjectMixin<List<E>>
-    implements RxInterface<List<E>> {
+    with NotifyManager<List<E>?>, RxObjectMixin<List<E>>
+    implements RxInterface<List<E>?> {
   RxList([List<E> initial = const []]) {
-    if (initial != null) {
-      _value = List.from(initial);
-    }
+    // if (initial != null) {
+    _value = List.from(initial);
+    //}
   }
 
   factory RxList.filled(int length, E fill, {bool growable = false}) {
@@ -136,7 +136,7 @@ extension ListExtension<E> on List<E> {
   }
 
   /// Add [Iterable<E>] to [List<E>] only if [Iterable<E>] is not null.
-  void addAllNonNull(Iterable<E> item) {
+  void addAllNonNull(Iterable<E>? item) {
     if (item != null) addAll(item);
   }
 

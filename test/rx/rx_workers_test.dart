@@ -1,5 +1,6 @@
 import 'dart:async';
 
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 
@@ -10,13 +11,13 @@ void main() {
     once(count, (dynamic _) {
       result = _ as int?;
     });
-    count.value++;
+    count.value = count.value! + 1;
     await Future.delayed(Duration.zero);
     expect(1, result);
-    count.value++;
+    count.value = count.value! + 1;
     await Future.delayed(Duration.zero);
     expect(1, result);
-    count.value++;
+    count.value = count.value! + 1;
     await Future.delayed(Duration.zero);
     expect(1, result);
   });
@@ -27,13 +28,13 @@ void main() {
     ever(count, (dynamic _) {
       result = _ as int?;
     });
-    count.value++;
+    count.value = count.value! + 1;
     await Future.delayed(Duration.zero);
     expect(1, result);
-    count.value++;
+    count.value = count.value! + 1;
     await Future.delayed(Duration.zero);
     expect(2, result);
-    count.value++;
+    count.value = count.value! + 1;
     await Future.delayed(Duration.zero);
     expect(3, result);
   });
@@ -46,10 +47,10 @@ void main() {
       result = _ as int?;
     }, time: Duration(milliseconds: 100));
 
-    count.value++;
-    count.value++;
-    count.value++;
-    count.value++;
+    count.value = count.value! + 1;
+    count.value = count.value! + 1;
+    count.value = count.value! + 1;
+    count.value = count.value! + 1;
     await Future.delayed(Duration.zero);
     expect(-1, result);
     await Future.delayed(Duration(milliseconds: 100));
@@ -64,17 +65,17 @@ void main() {
       result = _ as int?;
     }, time: Duration(milliseconds: 100));
 
-    count.value++;
+    count.value = count.value! + 1;
     await Future.delayed(Duration.zero);
     await Future.delayed(Duration(milliseconds: 100));
     expect(1, result);
-    count.value++;
-    count.value++;
-    count.value++;
+    count.value = count.value! + 1;
+    count.value = count.value! + 1;
+    count.value = count.value! + 1;
     await Future.delayed(Duration.zero);
     await Future.delayed(Duration(milliseconds: 100));
     expect(2, result);
-    count.value++;
+    count.value = count.value! + 1;
     await Future.delayed(Duration.zero);
     await Future.delayed(Duration(milliseconds: 100));
     expect(5, result);

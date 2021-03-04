@@ -213,7 +213,7 @@ class GetUtils {
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
 
   /// Checks if string is phone number.
-  static bool isPhoneNumber(String s) {
+  static bool isPhoneNumber(String? s) {
     if (s == null || s.length > 16 || s.length < 9) return false;
     return hasMatch(s, r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$');
   }
@@ -412,7 +412,7 @@ class GetUtils {
   static bool isEqual(num a, num b) => a == b;
 
   //Check if num is a cnpj
-  static bool isCnpj(String cnpj) {
+  static bool isCnpj(String? cnpj) {
     if (cnpj == null) {
       return false;
     }
@@ -465,7 +465,7 @@ class GetUtils {
   }
 
   /// Checks if the cpf is valid.
-  static bool isCpf(String cpf) {
+  static bool isCpf(String? cpf) {
     if (cpf == null) {
       return false;
     }
@@ -534,7 +534,7 @@ class GetUtils {
   /// Remove all whitespace inside string
   /// Example: your name => yourname
   static String removeAllWhitespace(String value) {
-    return value?.replaceAll(' ', '');
+    return value.replaceAll(' ', '');
   }
 
   /// Camelcase string

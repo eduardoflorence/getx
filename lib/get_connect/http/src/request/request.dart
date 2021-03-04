@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
-
 import '../http.dart';
 import '../multipart/form_data.dart';
 
@@ -60,18 +58,14 @@ class Request<T> {
     bool persistentConnection = true,
     Decoder<T>? decoder,
   }) {
-    assert(url != null);
-    assert(method != null);
-    assert(followRedirects != null);
     if (followRedirects) {
-      assert(maxRedirects != null);
       assert(maxRedirects > 0);
     }
     return Request._(
       url: url,
       method: method,
       bodyBytes: bodyBytes ??= BodyBytesStream.fromBytes(const []),
-      headers: Map.from(headers ??= <String, String>{}),
+      headers: Map.from(headers),
       followRedirects: followRedirects,
       maxRedirects: maxRedirects,
       contentLength: contentLength,
@@ -95,13 +89,15 @@ class BodyBytesStream extends StreamView<List<int>?> {
         Uint8List.fromList(bytes),
       ),
     );
-    listen(sink.add,
-        onError: completer.completeError,
-        onDone: sink.close,
-        cancelOnError: true);
+    listen(
+      (list) => sink.add(list!),
+      onError: completer.completeError,
+      onDone: sink.close,
+      cancelOnError: true,
+    );
     return completer.future;
   }
 
   Future<String> bytesToString([Encoding encoding = utf8]) =>
-      encoding.decodeStream(this);
+      encoding.decodeStream((this as Stream<List<int>>));
 }

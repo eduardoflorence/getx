@@ -76,7 +76,7 @@ extension ExtensionSnackbar on GetInterface {
       onTap: onTap,
       isDismissible: isDismissible,
       dismissDirection: dismissDirection,
-      showProgressIndicator: showProgressIndicator ?? false,
+      showProgressIndicator: showProgressIndicator,
       progressIndicatorController: progressIndicatorController,
       progressIndicatorBackgroundColor: progressIndicatorBackgroundColor,
       progressIndicatorValueColor: progressIndicatorValueColor,
@@ -125,7 +125,7 @@ extension ExtensionSnackbar on GetInterface {
     Color? leftBarIndicatorColor,
     List<BoxShadow>? boxShadows,
     Gradient? backgroundGradient,
-    FlatButton? mainButton,
+    TextButton? mainButton,
     OnTap? onTap,
     bool? isDismissible,
     bool? showProgressIndicator,
@@ -145,17 +145,15 @@ extension ExtensionSnackbar on GetInterface {
   }) async {
     final getBar = GetBar(
         snackbarStatus: snackbarStatus,
-        titleText: (title == null)
-            ? null
-            : titleText ??
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: colorText ?? iconColor ?? Colors.black,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 16,
-                  ),
-                ),
+        titleText: titleText ??
+            Text(
+              title,
+              style: TextStyle(
+                color: colorText ?? iconColor ?? Colors.black,
+                fontWeight: FontWeight.w800,
+                fontSize: 16,
+              ),
+            ),
         messageText: messageText ??
             Text(
               message,
@@ -224,10 +222,6 @@ extension ExtensionDialog on GetInterface {
     String? name,
     RouteSettings? routeSettings,
   }) {
-    assert(widget != null);
-    assert(barrierDismissible != null);
-    assert(useSafeArea != null);
-    assert(useRootNavigator != null);
     assert(debugCheckHasMaterialLocalizations(context!));
 
     //  final theme = Theme.of(context, shadowThemeOnly: true);
@@ -236,9 +230,7 @@ extension ExtensionDialog on GetInterface {
       pageBuilder: (buildContext, animation, secondaryAnimation) {
         final pageChild = widget;
         Widget dialog = Builder(builder: (context) {
-          return theme != null
-              ? Theme(data: theme, child: pageChild)
-              : pageChild;
+          return Theme(data: theme, child: pageChild);
         });
         if (useSafeArea) {
           dialog = SafeArea(child: dialog);
@@ -275,9 +267,6 @@ extension ExtensionDialog on GetInterface {
     bool useRootNavigator = true,
     RouteSettings? routeSettings,
   }) {
-    assert(pageBuilder != null);
-    assert(useRootNavigator != null);
-    assert(!barrierDismissible || barrierLabel != null);
     return Navigator.of(overlayContext!, rootNavigator: useRootNavigator)
         .push<T>(GetDialogRoute<T>(
       pageBuilder: pageBuilder,
@@ -326,23 +315,24 @@ extension ExtensionDialog on GetInterface {
       actions.add(cancel);
     } else {
       if (leanCancel) {
-        actions.add(FlatButton(
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        actions.add(TextButton(
           onPressed: () {
             onCancel?.call();
             back();
           },
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                    color: buttonColor ?? theme!.accentColor,
+                    width: 2,
+                    style: BorderStyle.solid),
+                borderRadius: BorderRadius.circular(100)),
+          ),
           child: Text(
             textCancel ?? "Cancel",
             style: TextStyle(color: cancelTextColor ?? theme!.accentColor),
           ),
-          shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  color: buttonColor ?? theme!.accentColor,
-                  width: 2,
-                  style: BorderStyle.solid),
-              borderRadius: BorderRadius.circular(100)),
         ));
       }
     }
@@ -350,11 +340,12 @@ extension ExtensionDialog on GetInterface {
       actions.add(confirm);
     } else {
       if (leanConfirm) {
-        actions.add(FlatButton(
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            color: buttonColor ?? theme!.accentColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100)),
+        actions.add(TextButton(
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100)),
+              primary: buttonColor ?? theme!.accentColor,
+            ),
             child: Text(
               textConfirm ?? "Ok",
               style: TextStyle(color: confirmTextColor ?? theme!.primaryColor),
@@ -377,7 +368,7 @@ extension ExtensionDialog on GetInterface {
         mainAxisSize: MainAxisSize.min,
         children: [
           content ??
-              Text(middleText ?? "",
+              Text(middleText,
                   textAlign: TextAlign.center, style: middleTextStyle),
           SizedBox(height: 16),
           ButtonTheme(
@@ -431,13 +422,6 @@ extension ExtensionBottomSheet on GetInterface {
     Duration? enterBottomSheetDuration,
     Duration? exitBottomSheetDuration,
   }) {
-    assert(bottomsheet != null);
-    assert(persistent != null);
-    assert(isScrollControlled != null);
-    assert(useRootNavigator != null);
-    assert(isDismissible != null);
-    assert(enableDrag != null);
-
     return Navigator.of(overlayContext!, rootNavigator: useRootNavigator)
         .push(GetModalBottomSheetRoute<T>(
       builder: (_) => bottomsheet,
@@ -445,8 +429,8 @@ extension ExtensionBottomSheet on GetInterface {
       // theme: Theme.of(key.currentContext, shadowThemeOnly: true),
       theme: Theme.of(key!.currentContext!),
       isScrollControlled: isScrollControlled,
-      barrierLabel:
-          MaterialLocalizations.of(key!.currentContext!).modalBarrierDismissLabel,
+      barrierLabel: MaterialLocalizations.of(key!.currentContext!)
+          .modalBarrierDismissLabel,
       backgroundColor: backgroundColor ?? Colors.transparent,
       elevation: elevation,
       shape: shape,
@@ -816,7 +800,7 @@ you can only use widgets and widget functions here''';
   /// [id] is for when you are using nested navigation,
   /// as explained in documentation
   void close(int times, [int? id]) {
-    if ((times == null) || (times < 1)) {
+    if (times < 1) {
       times = 1;
     }
     var count = 0;
@@ -868,7 +852,7 @@ you can only use widgets and widget functions here''';
       return null;
     }
     return global(id)?.currentState?.pushReplacement(GetPageRoute(
-        opaque: opaque ?? true,
+        opaque: opaque,
         page: _resolve(page, 'off'),
         binding: binding,
         settings: RouteSettings(arguments: arguments),
@@ -928,7 +912,7 @@ you can only use widgets and widget functions here''';
 
     return global(id)?.currentState?.pushAndRemoveUntil<T>(
         GetPageRoute<T>(
-          opaque: opaque ?? true,
+          opaque: opaque,
           popGesture: popGesture ?? defaultPopGesture,
           page: _resolve(page, 'offAll'),
           binding: binding,
@@ -952,7 +936,7 @@ you can only use widgets and widget functions here''';
     }
   }
 
-  void addPage(GetPage getPage) {
+  void addPage(GetPage? getPage) {
     if (getPage != null) {
       if (routeTree == null) routeTree = ParseRouteTree();
       routeTree!.addRoute(getPage);
@@ -1027,8 +1011,8 @@ you can only use widgets and widget functions here''';
   }
 
   GlobalKey<NavigatorState>? nestedKey(int key) {
-    keys.putIfAbsent(key, () => GlobalKey<NavigatorState>());
-    return keys[key];
+    keys?.putIfAbsent(key, () => GlobalKey<NavigatorState>());
+    return keys?[key];
   }
 
   GlobalKey<NavigatorState>? global(int? k) {
@@ -1036,10 +1020,11 @@ you can only use widgets and widget functions here''';
     if (k == null) {
       _key = key;
     } else {
-      if (!keys.containsKey(k)) {
+      final containCondition = keys?.containsKey(k);
+      if (containCondition == null ? true : !containCondition) {
         throw 'Route id ($k) not found';
       }
-      _key = keys[k];
+      _key = keys?[k];
     }
 
     if (_key!.currentContext == null && !testMode) {
@@ -1094,7 +1079,7 @@ Since version 2.8 it is possible to access the properties
   /// give access to current Overlay Context
   BuildContext? get overlayContext {
     BuildContext? overlay;
-    key?.currentState?.overlay?.context?.visitChildElements((element) {
+    key?.currentState?.overlay?.context.visitChildElements((element) {
       overlay = element;
     });
     return overlay;
@@ -1160,7 +1145,7 @@ Since version 2.8 it is possible to access the properties
       (ui.window.platformBrightness == Brightness.dark);
 
   /// give access to Theme.of(context).iconTheme.color
-  Color? get iconColor => theme?.iconTheme?.color;
+  Color? get iconColor => theme?.iconTheme.color;
 
   /// give access to FocusScope.of(context)
   FocusNode? get focusScope => FocusManager.instance.primaryFocus;
@@ -1171,9 +1156,9 @@ Since version 2.8 it is possible to access the properties
   // /// give access to Immutable MediaQuery.of(context).size.width
   // double get width => MediaQuery.of(context).size.width;
 
-  GlobalKey<NavigatorState>? get key => getxController?.key;
+  GlobalKey<NavigatorState>? get key => getxController.key;
 
-  Map<int, GlobalKey<NavigatorState>> get keys => getxController?.keys;
+  Map<int, GlobalKey<NavigatorState>>? get keys => getxController.keys;
 
   GetMaterialController get rootController => getxController;
 
@@ -1198,12 +1183,12 @@ Since version 2.8 it is possible to access the properties
 
   Routing get routing => getxController.routing;
 
-  Map<String?, String> get parameters => getxController.parameters;
-  set parameters(Map<String?, String> newParameters) =>
-      getxController.parameters = newParameters;
+  Map<String?, String>? get parameters => getxController.parameters;
+  set parameters(Map<String?, String>? newParameters) =>
+      getxController.parameters = newParameters!;
 
   ParseRouteTree? get routeTree => getxController.routeTree;
-  set routeTree(ParseRouteTree tree) => getxController.routeTree = tree;
+  set routeTree(ParseRouteTree? tree) => getxController.routeTree = tree;
 
   CustomTransition? get customTransition => getxController.customTransition;
   set customTransition(CustomTransition? newTransition) =>

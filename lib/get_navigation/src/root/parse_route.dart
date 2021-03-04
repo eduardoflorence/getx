@@ -2,7 +2,7 @@ import '../../../get_core/src/get_main.dart';
 
 import '../../get_navigation.dart';
 import '../routes/get_route.dart';
-import 'package:collection/collection.dart' show IterableExtension;
+// import 'package:collection/collection.dart' show IterableExtension;
 
 class RouteDecoder {
   final GetPage? route;
@@ -90,12 +90,11 @@ class ParseRouteTree {
       );
 
   GetPage? _findRoute(String name) {
-    return _routes.firstWhereOrNull(
-      (route) => route.path.regex.hasMatch(name),
-    );
+    return _routes.firstWhere((route) => route.path.regex.hasMatch(name),
+        orElse: null);
   }
 
-  Map<String?, String> _parseParams(String path, PathDecoded routePath) {
+  Map<String?, String>? _parseParams(String path, PathDecoded routePath) {
     final params = <String?, String>{};
     Match? paramsMatch = routePath.regex.firstMatch(path);
 

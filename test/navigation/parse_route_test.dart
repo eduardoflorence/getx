@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/parse_route.dart';
@@ -64,27 +65,27 @@ void main() {
         ],
       ));
 
-      expect(Get.parameters['name'], 'juan');
+      expect(Get.parameters!['name'], 'juan');
 
       Get.toNamed('/second/1234');
 
       await tester.pumpAndSettle();
 
-      expect(Get.parameters['id'], '1234');
+      expect(Get.parameters!['id'], '1234');
 
       Get.toNamed('/third?name=jonny&job=dev');
 
       await tester.pumpAndSettle();
 
-      expect(Get.parameters['name'], 'jonny');
-      expect(Get.parameters['job'], 'dev');
+      expect(Get.parameters!['name'], 'jonny');
+      expect(Get.parameters!['job'], 'dev');
 
       Get.toNamed('/last/1234/ana/profile');
 
       await tester.pumpAndSettle();
 
-      expect(Get.parameters['id'], '1234');
-      expect(Get.parameters['name'], 'ana');
+      expect(Get.parameters!['id'], '1234');
+      expect(Get.parameters!['name'], 'ana');
     },
   );
 
@@ -110,10 +111,10 @@ void main() {
       Get.toNamed("/italy", parameters: parameters);
 
       await tester.pumpAndSettle();
-      expect(Get.parameters['varginias'], 'varginia');
-      expect(Get.parameters['vinis'], 'viniiss');
-      expect(Get.parameters['a'], 'b');
-      expect(Get.parameters['c'], 'd');
+      expect(Get.parameters!['varginias'], 'varginia');
+      expect(Get.parameters!['vinis'], 'viniiss');
+      expect(Get.parameters!['a'], 'b');
+      expect(Get.parameters!['c'], 'd');
     },
   );
 }

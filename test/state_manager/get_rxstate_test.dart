@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 
@@ -30,7 +31,7 @@ void main() {
                 Text(
                   'Map: ${controller.map.length}',
                 ),
-                FlatButton(
+                TextButton(
                   child: Text("increment"),
                   onPressed: () => controller.increment(),
                 ),
@@ -92,6 +93,6 @@ class Controller extends GetxController {
   RxBool boolean = true.obs;
 
   void increment() {
-    counter.value++;
+    counter.value = counter.value! + 1;
   }
 }

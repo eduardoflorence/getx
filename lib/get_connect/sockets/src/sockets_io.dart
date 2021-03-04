@@ -54,7 +54,9 @@ class BaseWebSocket {
       return;
     } on SocketException catch (e) {
       connectionStatus = ConnectionStatus.closed;
-      socketNotifier!.notifyError(Close(e.osError!.message, e.osError!.errorCode));
+      // ignore: lines_longer_than_80_chars
+      socketNotifier!
+          .notifyError(Close(e.osError!.message, e.osError!.errorCode));
       return;
     }
   }

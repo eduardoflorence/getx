@@ -1,12 +1,10 @@
 part of rx_types;
 
 class RxSet<E> extends SetMixin<E>
-    with NotifyManager<Set<E>>, RxObjectMixin<Set<E>>
-    implements RxInterface<Set<E>> {
+    with NotifyManager<Set<E>?>, RxObjectMixin<Set<E>>
+    implements RxInterface<Set<E>?> {
   RxSet([Set<E> initial = const {}]) {
-    if (initial != null) {
-      _value = Set.from(initial);
-    }
+    _value = Set.from(initial);
   }
 
   /// Special override to push() element(s) in a reactive way
@@ -109,11 +107,7 @@ class RxSet<E> extends SetMixin<E>
 
 extension SetExtension<E> on Set<E> {
   RxSet<E> get obs {
-    if (this != null) {
-      return RxSet<E>(<E>{})..addAllNonNull(this);
-    } else {
-      return RxSet<E>(null);
-    }
+    return RxSet<E>(<E>{})..addAllNonNull(this);
   }
 
   /// Add [item] to [List<E>] only if [item] is not null.
@@ -122,7 +116,7 @@ extension SetExtension<E> on Set<E> {
   }
 
   /// Add [Iterable<E>] to [List<E>] only if [Iterable<E>] is not null.
-  void addAllNonNull(Iterable<E> item) {
+  void addAllNonNull(Iterable<E>? item) {
     if (item != null) addAll(item);
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'utils/wrapper.dart';
@@ -48,19 +49,19 @@ void main() {
     Get.back();
     expect(Get.isBottomSheetOpen, false);
 
-    expect(() => Get.bottomSheet(Container(), isScrollControlled: null),
+    /* expect(() => Get.bottomSheet(Container(), isScrollControlled: null),
         throwsAssertionError);
 
     expect(() => Get.bottomSheet(Container(), isDismissible: null),
         throwsAssertionError);
 
     expect(() => Get.bottomSheet(Container(), enableDrag: null),
-        throwsAssertionError);
+        throwsAssertionError); */
 
     await tester.pumpAndSettle();
   });
 
-  testWidgets(
+  /* testWidgets(
     "GetMaterialApp with debugShowMaterialGrid null",
     (tester) async {
       expect(
@@ -70,5 +71,5 @@ void main() {
         throwsAssertionError,
       );
     },
-  );
+  ); */
 }

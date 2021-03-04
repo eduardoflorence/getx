@@ -25,16 +25,17 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_test/flutter_test.dart';
 
 class _FunctionMatcher<T> extends CustomMatcher {
-  final dynamic Function(T? value) _feature;
+  final dynamic Function(T value) _feature;
 
   _FunctionMatcher(String name, this._feature, matcher)
       : super('`$name`:', '`$name`', matcher);
 
   @override
-  Object featureValueOf(covariant T? actual) => _feature(actual);
+  Object? featureValueOf(covariant T actual) => _feature(actual);
 }
 
 class HavingMatcher<T> implements TypeMatcher<T> {

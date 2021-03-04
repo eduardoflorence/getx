@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 
