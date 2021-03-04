@@ -12,7 +12,7 @@ void main() {
           children: [
             Obx(
               () => Column(children: [
-                Text('Count: ${controller!.counter.value}'),
+                Text('Count: ${controller.counter.value}'),
                 Text('Double: ${controller.doubleNum.value}'),
                 Text('String: ${controller.string.value}'),
                 Text('List: ${controller.list.length}'),

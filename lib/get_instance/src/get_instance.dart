@@ -28,7 +28,7 @@ class GetInstance {
 
   static GetInstance? _getInstance;
 
-  T? call<T>() => find<T>();
+  T call<T>() => find<T>();
 
   /// Holds references to every registered Instance when using
   /// [Get.put()]
@@ -69,7 +69,7 @@ class GetInstance {
   /// async version of [Get.put()].
   /// Awaits for the resolution of the Future from [builder()] parameter and
   /// stores the Instance returned.
-  Future<S?> putAsync<S>(
+  Future<S> putAsync<S>(
     AsyncInstanceBuilderCallback<S> builder, {
     String? tag,
     bool permanent = false,
@@ -87,7 +87,7 @@ class GetInstance {
   /// the same Type<[S]>
   /// - [permanent] keeps the Instance in memory, not following
   /// [Get.smartManagement] rules.
-  S? put<S>(
+  S put<S>(
     S dependency, {
     String? tag,
     bool permanent = false,
@@ -299,11 +299,11 @@ class GetInstance {
     return i;
   }
 
-  S? putOrFind<S>(InstanceBuilderCallback<S> dep, {String? tag}) {
+  S putOrFind<S>(InstanceBuilderCallback<S> dep, {String? tag}) {
     final key = _getKey(S, tag);
 
     if (_singl.containsKey(key)) {
-      return _singl[key]!.getDependency() as S?;
+      return _singl[key]!.getDependency() as S;
     } else {
       return GetInstance().put(dep(), tag: tag);
     }
@@ -314,7 +314,7 @@ class GetInstance {
   /// it will create an instance each time you call [find].
   /// If the registered type <[S]> (or [tag]) is a Controller,
   /// it will initialize it's lifecycle.
-  S? find<S>({String? tag}) {
+  S find<S>({String? tag}) {
     final key = _getKey(S, tag);
     if (isRegistered<S>(tag: tag)) {
       if (_singl[key] == null) {
@@ -329,7 +329,7 @@ class GetInstance {
       /// `initDependencies`, so we have to return the instance from there
       /// to make it compatible with `Get.create()`.
       final i = _initDependencies<S>(name: tag);
-      return i ?? _singl[key]!.getDependency() as S?;
+      return i ?? _singl[key]!.getDependency() as S;
     } else {
       // ignore: lines_longer_than_80_chars
       throw '"$S" not found. You need to call "Get.put($S())" or "Get.lazyPut(()=>$S())"';
